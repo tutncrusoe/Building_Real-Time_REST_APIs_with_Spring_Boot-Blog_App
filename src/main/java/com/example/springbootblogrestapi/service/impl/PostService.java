@@ -33,14 +33,19 @@ class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
 
-    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper) {
+    public PostServiceImpl(
+            PostRepository postRepository,
+            ModelMapper modelMapper
+    ) {
         this.postRepository = postRepository;
         this.modelMapper = modelMapper;
     }
 
 
     // convert Entity into DTO
-    private PostDto mapToDto(Post post) {
+    private PostDto mapToDto(
+            Post post
+    ) {
         PostDto postDto = modelMapper.map(post, PostDto.class);
 //        postDto.setId(post.getId());
 //        postDto.setTitle(post.getTitle());
@@ -49,7 +54,9 @@ class PostServiceImpl implements PostService {
         return postDto;
     }
 
-    private Post mapToEntity(PostDto postDto) {
+    private Post mapToEntity(
+            PostDto postDto
+    ) {
         Post post = modelMapper.map(postDto, Post.class);
 //        post.setTitle(postDto.getTitle());
 //        post.setDescription(postDto.getDescription());
@@ -58,8 +65,9 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto createPost(PostDto postDto) {
-
+    public PostDto createPost(
+            PostDto postDto
+    ) {
         // convert DTO to Entity
         Post post = mapToEntity(postDto);
         Post newPost = postRepository.save(post);
@@ -69,8 +77,12 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
-
+    public PostResponse getAllPosts(
+            int pageNo,
+            int pageSize,
+            String sortBy,
+            String sortDir
+    ) {
         // create Sort instance
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
@@ -97,13 +109,18 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto getPostById(long id) {
+    public PostDto getPostById(
+            long id
+    ) {
         Post existingPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
         return mapToDto(existingPost);
     }
 
     @Override
-    public PostDto updatePost(PostDto postDto, long id) {
+    public PostDto updatePost(
+            PostDto postDto,
+            long id
+    ) {
         Post existingPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
 
         existingPost.setTitle(postDto.getTitle());
@@ -114,7 +131,9 @@ class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePostById(long id) {
+    public void deletePostById(
+            long id
+    ) {
         Post existingPost = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
         postRepository.deleteById(id);
     }
