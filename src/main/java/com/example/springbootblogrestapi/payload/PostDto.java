@@ -3,6 +3,8 @@ package com.example.springbootblogrestapi.payload;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 public class PostDto {
@@ -10,4 +12,5 @@ public class PostDto {
     private String title;
     private String description;
     private String content;
+    private Set<CommentDto> comments;
 }
