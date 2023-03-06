@@ -3,6 +3,7 @@ package com.example.springbootblogrestapi.exception;
 import org.springframework.http.HttpStatus;
 
 public class BlogAPIException extends RuntimeException {
+
     private HttpStatus status;
     private String message;
 
@@ -11,10 +12,10 @@ public class BlogAPIException extends RuntimeException {
         this.message = message;
     }
 
-    public BlogAPIException(String message1, HttpStatus status, String message2) {
-        super(message1);
+    public BlogAPIException(String message, HttpStatus status, String message1) {
+        super(message);
         this.status = status;
-        this.message = message2;
+        this.message = message1;
     }
 
     public HttpStatus getStatus() {

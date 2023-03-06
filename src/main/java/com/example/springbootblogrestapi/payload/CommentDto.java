@@ -21,6 +21,6 @@ public class CommentDto {
     private String email;
 
     @NotEmpty
-    @Size(min = 10, message = "Comment must be minimum 10 characters")
+    @Size(min = 5, message = "Comment must be minimum 10 characters")
     private String body;
 }
