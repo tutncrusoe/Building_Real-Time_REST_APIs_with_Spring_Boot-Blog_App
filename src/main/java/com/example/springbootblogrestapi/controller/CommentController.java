@@ -2,8 +2,10 @@ package com.example.springbootblogrestapi.controller;
 
 import com.example.springbootblogrestapi.payload.CommentDto;
 import com.example.springbootblogrestapi.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +16,11 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class CommentController {
 
+    @Autowired
     private CommentService commentService;
 
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured("ROLE_ADMIN")
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @Valid @RequestBody CommentDto commentDto) {
@@ -39,7 +39,8 @@ public class CommentController {
         return new ResponseEntity<>(commentDto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured("ROLE_ADMIN")
     @PutMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId,
                                                     @PathVariable(value = "id") Long commentId,
@@ -48,7 +49,8 @@ public class CommentController {
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable(value = "postId") Long postId,
                                                 @PathVariable(value = "id") Long commentId) {
