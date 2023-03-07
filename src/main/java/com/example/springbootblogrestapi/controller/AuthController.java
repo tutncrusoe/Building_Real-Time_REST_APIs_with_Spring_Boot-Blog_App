@@ -8,6 +8,8 @@ import com.example.springbootblogrestapi.payload.SignUpDto;
 import com.example.springbootblogrestapi.repository.RoleRepository;
 import com.example.springbootblogrestapi.repository.UserRepository;
 import com.example.springbootblogrestapi.security.jwt.JwtTokenProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Collections;
 
-//@Api(value = "Auth controller exposes siginin and signup REST APIs")
+@Api(value = "Auth controller exposes siginin and signup REST APIs")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -48,7 +50,7 @@ public class AuthController {
     @Autowired
     private ModelMapper modelMapper;
 
-    //    @ApiOperation(value = "REST API to Register or Signup user to Blog app")
+    @ApiOperation(value = "REST API to Register or Signup user to Blog app")
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthResponse> authenticateUser(@Valid @RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -62,7 +64,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthResponse(token));
     }
 
-    //    @ApiOperation(value = "REST API to Signin or Login user to Blog app")
+    @ApiOperation(value = "REST API to Signin or Login user to Blog app")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpDto) {
 

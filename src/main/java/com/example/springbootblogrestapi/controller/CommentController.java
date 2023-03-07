@@ -2,6 +2,8 @@ package com.example.springbootblogrestapi.controller;
 
 import com.example.springbootblogrestapi.payload.CommentDto;
 import com.example.springbootblogrestapi.service.CommentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,26 +14,31 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(value = "CRUD REST APIs for Comment Respource")
 @RestController
 @RequestMapping("/api/v1")
 public class CommentController {
 
-    @Autowired
     private CommentService commentService;
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Secured("ROLE_ADMIN")
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
+
+    @ApiOperation(value = "Create Comment REST API")
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @Valid @RequestBody CommentDto commentDto) {
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Get All Comments By Post ID REST API")
     @GetMapping("/posts/{postId}/comments")
     public List<CommentDto> getCommentsByPostId(@PathVariable(value = "postId") Long postId) {
         return commentService.getCommentsByPostId(postId);
     }
 
+    @ApiOperation(value = "Get Single Comment By ID REST API")
     @GetMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "postId") Long postId,
                                                      @PathVariable(value = "id") Long commentId) {
@@ -39,8 +46,7 @@ public class CommentController {
         return new ResponseEntity<>(commentDto, HttpStatus.OK);
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Secured("ROLE_ADMIN")
+    @ApiOperation(value = "Update Comment By ID REST API")
     @PutMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId,
                                                     @PathVariable(value = "id") Long commentId,
@@ -49,8 +55,7 @@ public class CommentController {
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Secured("ROLE_ADMIN")
+    @ApiOperation(value = "Delete Comment By ID REST API")
     @DeleteMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable(value = "postId") Long postId,
                                                 @PathVariable(value = "id") Long commentId) {
