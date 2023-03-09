@@ -4,6 +4,8 @@ package com.example.springbootblogrestapi.payload;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -11,6 +13,8 @@ import java.util.Set;
 
 @ApiModel(description = "Post model information")
 @Data
+@Getter
+@Setter
 public class PostDto {
 
     @ApiModelProperty(value = "Blog post id")
@@ -37,4 +41,6 @@ public class PostDto {
 
     @ApiModelProperty(value = "Blog post comments")
     private Set<CommentDto> comments;
+
+    private Long categoryId;
 }
